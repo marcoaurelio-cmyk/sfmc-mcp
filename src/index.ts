@@ -187,5 +187,10 @@ app.post(`/mcp/${PATH_TOKEN}`, async (req, res) => {
 });
 app.all(`/mcp/${PATH_TOKEN}`, (_req, res) => res.status(405).set("Allow", "POST").end());
 
-const port = Number(process.env.PORT ?? 8080);
-app.listen(port, () => console.log(`SFMC MCP ouvindo na porta ${port}`));
+// Na Vercel o app é exportado; localmente abre a porta
+if (!process.env.VERCEL) {
+  const port = Number(process.env.PORT ?? 8080);
+  app.listen(port, () => console.log(`SFMC MCP ouvindo na porta ${port}`));
+}
+
+export default app;
